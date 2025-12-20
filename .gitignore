@@ -1,0 +1,22 @@
+# Ignore docs folder
+docs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+# venv/
+# .env/
+
+# Streamlit cache
+.streamlit/
+
+# Local vector store (if using Chroma locally)
+# vector_store/
+
+# OS files
+.DS_Store
+Thumbs.db
