@@ -1,7 +1,8 @@
 # Ignore docs folder
 docs/
-requirement.txt/
-rough.py/
+# Ignore specific files 
+requirement.txt 
+rough.py
 # Python cache
 __pycache__/
 *.pyc
