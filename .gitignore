@@ -3,6 +3,7 @@ docs/
 # Ignore specific files 
 fullreq.txt 
 roughcode.py
+app2.py
 # Python cache
 __pycache__/
 *.pyc
