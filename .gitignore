@@ -1,5 +1,6 @@
 # Ignore docs folder
 docs/
+requirement.txt/
 
 # Python cache
 __pycache__/
