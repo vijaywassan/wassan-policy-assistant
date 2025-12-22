@@ -56,11 +56,13 @@ def build_index():
 
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
-    index = VectorStoreIndex(
-        nodes,
-        storage_context=storage_context,
-        embed_model=embed_model
-    )
+    # index = VectorStoreIndex(
+    #     nodes,
+    #     storage_context=storage_context,
+    #     embed_model=embed_model
+    # )
+    # ✅ Load index from existing vector store 
+    index = VectorStoreIndex.from_vector_store( vector_store=vector_store, storage_context=storage_context, embed_model=embed_model )
 
     return index, llm, embed_model
 # Sidebar section to browse chunks
