@@ -158,9 +158,12 @@ with col2:
 
 if send and task.strip():    
         # Build index and query
-        index, llm, embed_model = build_index()
-        if index is None:
-            st.error("❌ No documents found. Please upload files and rebuild the index.")
+        index, llm, embed_model = build_index()        
+        # from qdrant_client import QdrantClient
+        qdrant_client = QdrantClient(url="http://15.206.197.214:6333")
+        count = qdrant_client.count(collection_name="rag_docs").count
+        if count == 0: 
+            st.error("❌ No vector data found in DB. Please ingest documents first.")
         else:
             query_engine = index.as_query_engine(llm=llm)
             res = query_engine.query(task)
