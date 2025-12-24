@@ -17,10 +17,10 @@ def get_qdrant_client():
     return QdrantClient(url=QDRANT_URL, timeout=60)
 
 def get_embed_model():
-    return HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    return HuggingFaceEmbedding(model_name="sentence-transformers/all-mpnet-base-v2")
 
 def get_llm():
-    return CustomOllamaLLM(model_name="llama3", base_url=OLLAMA_BASE_URL)
+    return CustomOllamaLLM(model_name="qwen2.5", base_url=OLLAMA_BASE_URL)
 
 def load_index_from_db():
     client = get_qdrant_client()
@@ -39,48 +39,55 @@ def load_index_from_db():
 # -----------------------------
 # Query UI
 # -----------------------------
-st.title("💬 Wassan Policy Assistant")
+# Show logo image at the top 
+page1, page2 = st.columns([1, 4])
+with page1:
 
-col1, col2 = st.columns([4, 1])
-with col1:
-    task = st.text_area("How can I help you?", height=100, key="input")
-with col2:
-    st.markdown(
-        """
-        <style>
-        div.stButton > button {
-            height: 55px;
-            width: 100%;
-            font-size: 18px;
-            background-color: #1f77b4;
-            color: white;
-            border-radius: 8px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.markdown(" ")
-    send = st.button("Go✨")
+    st.image("C:/Users/WASSAN/Documents/wassan logo.jpg", width=150)
+#  # adjust width as needed # Optional: add a subtitle below
+with page2:
+    st.markdown("### 💬 Data Roots: Wassan Policy Assistant")
 
-if send and task.strip():
-    try:
-        client = get_qdrant_client()
-        count = client.count(collection_name=QDRANT_COLLECTION).count
+    col1, col2 = st.columns([4, 1])
+    with col1:
+        task = st.text_area("How can I help you?", height=100, key="input")
+    with col2:
+        st.markdown(
+            """
+            <style>
+            div.stButton > button {
+                height: 55px;
+                width: 100%;
+                font-size: 18px;
+                background-color: #1f77b4;
+                color: white;
+                border-radius: 8px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown(" ")
+        send = st.button("Go✨")
 
-        if count == 0:
-            st.error("❌ No vector data found in DB. Please ingest documents first.")
-        else:
-            index, llm = load_index_from_db()
-            query_engine = index.as_query_engine(llm=llm)
-            res = query_engine.query(task)
-            response_text = res.response
+    if send and task.strip():
+        try:
+            client = get_qdrant_client()
+            count = client.count(collection_name=QDRANT_COLLECTION).count
 
-            placeholder = st.empty()
-            streamed = ""
-            for word in response_text.split():
-                streamed += word + " "
-                placeholder.markdown(f"**Assistant:** {streamed}")
-                time.sleep(0.05)
-    except Exception as e:
-        st.error(f"❌ Query failed: {e}")
+            if count == 0:
+                st.error("❌ No vector data found in DB. Please ingest documents first.")
+            else:
+                index, llm = load_index_from_db()
+                query_engine = index.as_query_engine(llm=llm, similarity_top_k=8)
+                res = query_engine.query(task)
+                response_text = st.markdown(res.response)
+
+                # placeholder = st.empty()
+                # streamed = ""
+                # for word in response_text.split():
+                #     streamed += word + " "
+                #     placeholder.markdown(f"**Assistant:** {streamed}")
+                #     time.sleep(0.05)
+        except Exception as e:
+            st.error(f"❌ Query failed: {e}")
