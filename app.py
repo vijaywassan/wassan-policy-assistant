@@ -5,6 +5,8 @@ from llama_index.core import VectorStoreIndex, StorageContext
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from custom_llm import CustomOllamaLLM
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Config
 QDRANT_URL = "http://15.206.197.214:6333/"
