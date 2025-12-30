@@ -11,7 +11,7 @@ QDRANT_URL = "http://15.206.197.214:6333/"
 QDRANT_COLLECTION = "rag_docs"
 OLLAMA_BASE_URL = "https://ollama.wassan.org/api/generate"
 
-st.set_page_config(page_title="✨ Wassan Policy Assistant", layout="centered")
+
 
 def get_qdrant_client():
     return QdrantClient(url=QDRANT_URL, timeout=60)
@@ -36,17 +36,33 @@ def load_index_from_db():
     
     return index, llm
 
+
+
 # -----------------------------
 # Query UI
 # -----------------------------
 # Show logo image at the top 
+st.set_page_config(page_title="✨ Wassan Policy Assistant", layout="centered")
+ # local file in your project folder 
+st.markdown("""
+    <style>
+        .block-container {
+            padding-top: 1rem;
+            padding-bottom: 0.1rem;
+        }
+        .stTextInput, .stSelectbox, .stButton {
+            margin-bottom: 0.2rem;
+        }
+    </style>
+""", unsafe_allow_html=True)
 page1, page2 = st.columns([1, 4])
 with page1:
-
-    st.image("C:/Users/WASSAN/Documents/wassan logo.jpg", width=150)
+    st.markdown(" ")
+    st.image("./media/wassan logo.jpg", width=70)
 #  # adjust width as needed # Optional: add a subtitle below
 with page2:
-    st.markdown("### 💬 Data Roots: Wassan Policy Assistant")
+    st.markdown(" ")
+    st.markdown("<h2 style='color:#1f77b4;'>Wassan Policy Assistant</h2>", unsafe_allow_html=True)
 
     col1, col2 = st.columns([4, 1])
     with col1:
@@ -82,6 +98,7 @@ with page2:
                 query_engine = index.as_query_engine(llm=llm, similarity_top_k=8)
                 res = query_engine.query(task)
                 response_text = st.markdown(res.response)
+                
 
                 # placeholder = st.empty()
                 # streamed = ""
@@ -91,3 +108,4 @@ with page2:
                 #     time.sleep(0.05)
         except Exception as e:
             st.error(f"❌ Query failed: {e}")
+
