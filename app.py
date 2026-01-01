@@ -107,7 +107,9 @@ with page2:
                                 For further information, please reach out to hr@wassan.org")
                 else:
                     st.markdown(res.response)
-                    st.markdown("#### For the correctness of the information, Please check with the HR team.")
+                    st.markdown("For the correctness of the information, Please check with the HR team.")
+                    st.markdown(" ")
+                    st.markdown(" ")
                     st.markdown(" ")
                     st.markdown(" ")
                     st.markdown(" ")
