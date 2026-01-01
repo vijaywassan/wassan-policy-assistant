@@ -100,13 +100,16 @@ with page2:
             else:
                 index, llm = load_index_from_db()
                 query_engine = index.as_query_engine(llm=llm, similarity_top_k=8)
-                res = query_engine.query(task)
+                # res = query_engine.query(task)
+                with st.spinner('Generating..'):
+                    res = query_engine.query(task)
 
                 if not res.response.strip():
                     st.warning("I couldn’t find a clear answer. \
                                 For further information, please reach out to hr@wassan.org")
                 else:
-                    st.markdown(res.response)
+                    
+                    st.markdown(f"**Assistant:** {res.response}")
                     st.markdown("For the correctness of the information, Please check with the HR team.")
                     st.markdown(" ")
                     st.markdown(" ")
