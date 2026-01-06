@@ -13,7 +13,7 @@ QDRANT_URL = "http://15.206.197.214:6333/"
 QDRANT_COLLECTION = "rag_docs"
 OLLAMA_BASE_URL = "https://ollama.wassan.org/api/generate"
 
-
+   
 
 def get_qdrant_client():
     return QdrantClient(url=QDRANT_URL, timeout=60)

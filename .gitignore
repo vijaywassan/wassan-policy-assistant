@@ -1,5 +1,6 @@
 # Ignore docs folder
 docs/
+uploaded docs/
 # Ignore specific files 
 fullreq.txt 
 roughcode.py
